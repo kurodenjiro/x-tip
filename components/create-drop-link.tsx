@@ -28,15 +28,7 @@ export default function CreateDropLink({ user }: { user: any }) {
     }
 
     const aptosAmount = Number.parseInt(amount);
-    if (isNaN(aptosAmount) || aptosAmount < MIN_AMOUNT) {
-      
-      toast({
-        title: "Invalid amount",
-        description: `Amount must be at least ${MIN_AMOUNT} apt.`,
-        variant: "destructive",
-      });
-      return;
-    }
+   
     try {
       setIsLoading(true);
       const dropLink = await addDrop(aptosAmount);

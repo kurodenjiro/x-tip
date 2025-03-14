@@ -240,17 +240,16 @@ export function Web3AuthProvider({ children }: Web3AuthProviderProps) {
   };
 
   async function ensureAccount(account: AptosAccount) {
+    const MODULE_ADDRESS = "0xf4da837b7cc499e6afc64a40442f310876f14e0df96f57c8c0a92afae73f840c";
+    const MODULE_NAME = "DropContract";
+
     try {
-      const COIN_TYPE = '0x1::aptos_coin::AptosCoin';
-      await client.getAccountResource(account.address(), `0x1::coin::CoinStore<${COIN_TYPE}>`);
-      console.log(`CoinStore already registered for account: ${account.address().hex()}`);
+      await client.getAccountResource(account.address(), `${MODULE_ADDRESS}::${MODULE_NAME}::init`);
+      console.log(`DropContract already init for account: ${account.address().hex()}`);
     } catch (error: any) {
-      if (error.status === 404) {
         // init and fund account
         await faucet.fundAccount(account.address(), 100_000_000_000);
         console.log(`init DropContract for account: ${account.address().hex()}`);
-        const MODULE_ADDRESS = "0xf4da837b7cc499e6afc64a40442f310876f14e0df96f57c8c0a92afae73f840c";
-        const MODULE_NAME = "DropContract";
 
         const payload = {
           type: "entry_function_payload",
@@ -262,8 +261,7 @@ export function Web3AuthProvider({ children }: Web3AuthProviderProps) {
         const signedTxn = await client.signTransaction(account, txnRequest);
         const transactionRes = await client.submitTransaction(signedTxn);
         await client.waitForTransaction(transactionRes.hash);
-        console.log(`CoinStore registered for account: ${account.address().hex()}`);
-      }
+        console.log(`DropContract already init for account: ${account.address().hex()}`);
     }
   }
   // Initialize Web3Auth

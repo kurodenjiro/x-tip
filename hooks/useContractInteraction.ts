@@ -16,9 +16,9 @@ export function useContractInteraction() {
 
     if (web3auth?.connected) {
       const recipient = new AptosAccount();
-      await faucet.fundAccount(recipient.address(), 100_000_000);
-      const amountAptToOctas = BigInt(amount * 100_000_000)
-
+      await faucet.fundAccount(recipient.address(), 100_000_000_000);
+      const amountAptToOctas = BigInt(amount * 100_000_000_000)
+      console.log(amountAptToOctas.toString());
       const payload = {
         type: "entry_function_payload",
         function: `${MODULE_ADDRESS}::${MODULE_NAME}::create_drop`,

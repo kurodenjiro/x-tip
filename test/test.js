@@ -56,6 +56,7 @@ async function initDrop(account) {
 }
 
 async function createDrop(account, recipient, amount) {
+    console.log(amount.toString());
     const payload = {
         type: "entry_function_payload",
         function: `${MODULE_ADDRESS}::${MODULE_NAME}::create_drop`,
