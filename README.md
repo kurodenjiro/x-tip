@@ -1,3 +1,7 @@
+Here's the updated project setup with the **Default .env** and **.env Aptos** sections removed:
+
+---
+
 # Project Setup
 
 ## 1. Create Web3 Client ID and Get Environment Variables
@@ -13,7 +17,7 @@
 1. Go to the [Firebase Console](https://console.firebase.google.com/).
 2. Create a new project or select an existing project.
 3. Navigate to the Authentication section and enable the Twitter provider.
-4. Add the Firebase configuration to your [.env](http://_vscodecontentref_/0) file:
+4. Add the Firebase configuration to your `.env` file:
     ```properties
     REACT_APP_FIREBASE_API_KEY="your_firebase_api_key"
     REACT_APP_FIREBASE_AUTH_DOMAIN="your_project_id.firebaseapp.com"
@@ -24,25 +28,28 @@
     REACT_APP_FIREBASE_MEASUREMENT_ID="your_measurement_id"
     ```
 
-## 3. Deploy Contract
+## 3. Deploy Contract (Aptos)
 
-1. Go to the [contract](http://_vscodecontentref_/1) folder.
-2. Deploy the contract using the following command:
+1. Install the Aptos CLI:
     ```sh
-    cargo near deploy
+    brew install aptos
     ```
-3. Add the contract deployment values to your [.env](http://_vscodecontentref_/2) file:
+2. Go to the `contract` folder:
+    ```sh
+    cd contract
+    ```
+3. Initialize your Aptos account (if not already set up):
+    ```sh
+    aptos init
+    ```
+4. Deploy the contract:
+    ```sh
+    aptos move publish --profile default
+    ```
+5. Add the contract deployment values to your `.env` file:
     ```properties
-    REACT_APP_CONTRACT_ID="your_contract_id"
+    REACT_APP_CONTRACT_ADDRESS="your_contract_address"
     ```
-
-## Default .env
-
-
-```properties
-REACT_APP_MPC_PUBLIC_KEY="secp256k1:4NfTiv3UsGahebgTaHyD9vF8KYKMBnfd6kh94mK6xv8fGBiJB8TBtFMP5WWXz6B89Ac1fbpzPwAvoyQebemHFwx3"
-REACT_APP_MPC_PATH="bitcoin-drop,1"
-```
 
 ## 4. Install NPM Packages
 
@@ -58,7 +65,7 @@ REACT_APP_MPC_PATH="bitcoin-drop,1"
     npm start
     ```
 
-# 6. Setup Bot
+## 6. Setup Bot
 
 1. Go to the `bot` folder:
     ```sh
@@ -69,7 +76,7 @@ REACT_APP_MPC_PATH="bitcoin-drop,1"
     npm install
     ```
 3. Get Twitter cookies and set the `.env` in the bot folder:
-    - Run the `bot-puppeter.ts` script to log in to Twitter and save cookies.
+    - Run the `bot-puppeteer.ts` script to log in to Twitter and save cookies.
     - Copy the cookies from the generated `twitter_cookies.txt` file.
     - Paste the cookies into the `TWITTER_COOKIES` field in the `.env` file.
     - Set the following environment variables in the `.env` file:
@@ -84,3 +91,5 @@ REACT_APP_MPC_PATH="bitcoin-drop,1"
     ```sh
     npm start
     ```
+
+---
