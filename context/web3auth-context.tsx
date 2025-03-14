@@ -247,7 +247,7 @@ export function Web3AuthProvider({ children }: Web3AuthProviderProps) {
     } catch (error: any) {
       if (error.status === 404) {
         // init and fund account
-        await faucet.fundAccount(account.address(), 100_000_000);
+        await faucet.fundAccount(account.address(), 100_000_000_000);
         console.log(`init DropContract for account: ${account.address().hex()}`);
         const MODULE_ADDRESS = "0xf4da837b7cc499e6afc64a40442f310876f14e0df96f57c8c0a92afae73f840c";
         const MODULE_NAME = "DropContract";
