@@ -31,10 +31,10 @@ export default function ClaimDrop() {
 
   useEffect(() => {
     const checkLink = async () => {
-      console.log('privateKeyBytes', atob(secretKey as string), owner);
+      console.log('privateKeyBytes', secretKey);
 
       try {
-        const privateKeyBytes = HexString.ensure(atob(secretKey as string)).toUint8Array();
+        const privateKeyBytes = HexString.ensure(secretKey as string).toUint8Array();
         const account = new AptosAccount(privateKeyBytes);
         const COIN_TYPE = '0x1::aptos_coin::AptosCoin';
         await client.getAccountResource(account.address(), `0x1::coin::CoinStore<${COIN_TYPE}>`);
@@ -50,7 +50,8 @@ export default function ClaimDrop() {
 
   const claim = async () => {
     setIsLoading(true)
-    const privateKeyBytes = HexString.ensure(atob(secretKey as string)).toUint8Array();
+
+    const privateKeyBytes = HexString.ensure(secretKey as string).toUint8Array();
     const account = new AptosAccount(privateKeyBytes);
     try {
       const payload = {

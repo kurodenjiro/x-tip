@@ -52,8 +52,8 @@ export async function POST(req: NextRequest) {
         const privateKeyBytes = recipient.signingKey.secretKey;
         // Convert it to a hex string
         const privateKeyHex = Buffer.from(privateKeyBytes).toString("hex");
-        console.log('privateKeyHex', privateKeyHex,privateKeyBytes);
-        const dropSecret = btoa(privateKeyHex);
+
+        const dropSecret = btoa(privateKeyHex)
 
         const dropLink = `${process.env.NEXT_PUBLIC_URL}/claim/${dropSecret}?owner=${user?.address}`;
 

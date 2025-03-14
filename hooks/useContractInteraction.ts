@@ -32,11 +32,8 @@ export function useContractInteraction() {
       const privateKeyBytes = recipient.signingKey.secretKey;
       // Convert it to a hex string
       const privateKeyHex = Buffer.from(privateKeyBytes).toString("hex");
-      console.log('privateKeyHex', privateKeyHex, privateKeyBytes);
       const dropSecret = btoa(privateKeyHex)
-      const dropKeyPairBase64 = Buffer.from(dropSecret).toString('base64');
-
-      const dropLink = `${process.env.NEXT_PUBLIC_URL}/claim/${dropKeyPairBase64}?owner=${accountAddress}`;
+      const dropLink = `${process.env.NEXT_PUBLIC_URL}/claim/${dropSecret}?owner=${accountAddress}`;
       return dropLink
 
     }
