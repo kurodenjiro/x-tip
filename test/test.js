@@ -98,10 +98,12 @@ async function revokeDrop(account, recipient) {
 }
 
 async function main() {
-    console.log("Funding accounts...", owner.address().toString(), recipient.address().toString());
-    await faucet.fundAccount(owner.address(), 100_000_000);
-    await faucet.fundAccount(recipient.address(), 10_000_000);
-    await faucet.fundAccount(withdrawalAddress.address(), 10_000_000);
+    console.log("Funding accounts owner : " ,owner.address().toString());
+    console.log("Funding accounts recipient : " ,recipient.address().toString());
+    console.log("Funding accounts withdrawalAddress : " ,withdrawalAddress.address().toString());
+    await faucet.fundAccount(owner.address(), 100_000_000_000);
+    await faucet.fundAccount(recipient.address(), 10_000_000_000);
+    await faucet.fundAccount(withdrawalAddress.address(), 10_000_000_000);
 
     console.log("Initializing Drop Storage...");
     await initDrop(owner);

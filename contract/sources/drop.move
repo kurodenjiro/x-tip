@@ -1,6 +1,6 @@
 module DropAddress::DropContract {
     use aptos_framework::coin;
-    use aptos_framework::signer;
+    use std::signer;
     use std::vector;
     use std::option;
     use aptos_framework::aptos_coin::AptosCoin;
@@ -25,7 +25,7 @@ module DropAddress::DropContract {
     }
 
     /// Create a drop for a specific recipient
-    public entry fun create_drop(account: &signer, recipient: address, amount: u64) acquires DropStore{
+    public entry fun create_drop(account: &signer, recipient: address, amount: u64) acquires DropStore {
         let owner = signer::address_of(account);
         let drop_store = borrow_global_mut<DropStore>(owner);
 
@@ -42,7 +42,7 @@ module DropAddress::DropContract {
     }
 
     /// Claim a drop with a withdrawal address
-    public entry fun claim_drop(account: &signer, owner: address, withdraw_to: address) acquires DropStore{
+    public entry fun claim_drop(account: &signer, owner: address, withdraw_to: address) acquires DropStore {
         let recipient = signer::address_of(account);
         let drop_store = borrow_global_mut<DropStore>(owner);
 

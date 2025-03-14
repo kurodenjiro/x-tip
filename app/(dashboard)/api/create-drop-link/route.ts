@@ -36,12 +36,13 @@ export async function POST(req: NextRequest) {
         const account = new AptosAccount(HexString.ensure(user?.privateKey as string).toUint8Array());
 
         const recipient = new AptosAccount();
-        await faucet.fundAccount(recipient.address(), 1000000);
+        await faucet.fundAccount(recipient.address(), 100_000_000);
+        const amountAptToOctas = BigInt(amount * 100_000_000)
         const payload = {
             type: "entry_function_payload",
             function: `${MODULE_ADDRESS}::${MODULE_NAME}::create_drop`,
             type_arguments: [],
-            arguments: [recipient.address().hex(), amount.toString()],
+            arguments: [recipient.address().hex(), amountAptToOctas.toString()],
         };
 
         const txnRequest = await client.generateTransaction(account.address(), payload);

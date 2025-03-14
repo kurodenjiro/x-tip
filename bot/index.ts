@@ -1,6 +1,16 @@
 import { Scraper, SearchMode } from "agent-twitter-client";
 import dotenv from "dotenv";
 import puppeteer from 'puppeteer';
+import { createReactAgent } from "@langchain/langgraph/prebuilt"
+import {
+    AptosAccountAddressTool,
+    AptosBalanceTool,
+    AptosGetTokenDetailTool,
+    AptosGetTokenPriceTool,
+    AptosTransactionTool,
+    JouleGetPoolDetails,
+} from "move-agent-kit"
+import { setupAgentKit } from "./agent"
 
 dotenv.config();
 
@@ -12,7 +22,21 @@ function delay(time: number) {
         setTimeout(resolve, time)
     });
 }
+export const createAptosReadAgent = async () => {
+    const { agentRuntime, llm } = await setupAgentKit()
 
+    const readAgentTools = [
+        new AptosAccountAddressTool(agentRuntime),
+        new AptosTransactionTool(agentRuntime),
+    ]
+
+    const readAgent = createReactAgent({
+        tools: readAgentTools,
+        llm: llm,
+    })
+
+    return readAgent
+}
 // write get api http://localhost:3000/api/user?userId=1766524126011740161
 async function getUser(userId: string) {
     const response = await fetch(`${process.env.API_URL}/api/user?userId=${userId}`);
@@ -78,10 +102,11 @@ async function sendDirectMessageOrNotify(scraper: Scraper, conversionId: string,
     }
 }
 
-async function continuouslyCheckMentions(interval = 60000*3) {
+async function continuouslyCheckMentions(interval = 60000 * 3) {
     const scraper = new Scraper();
     const cookieString = process.env.TWITTER_COOKIES;
     const twitterUsername = process.env.TWITTER_USERNAME;
+    const readAgent = await createAptosReadAgent();
 
     if (!cookieString || !twitterUsername) {
         console.error("Error: Missing environment variables (TWITTER_COOKIES or TWITTER_USERNAME)");
@@ -148,7 +173,7 @@ async function continuouslyCheckMentions(interval = 60000*3) {
 
                     if (originalTweet.username !== userMention) {
                         const conversionId = `${originalTweet.userId}-${botId}`;
-                        
+
                         const userMentionInfo = await getUser(tweet.userId);
                         // check if user has already registered
                         if (!userMentionInfo) {

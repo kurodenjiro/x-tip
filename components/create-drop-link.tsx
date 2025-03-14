@@ -9,12 +9,10 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useContractInteraction } from "@/hooks/useContractInteraction";
 
-const MIN_AMOUNT = 1000;
+const MIN_AMOUNT = 0.001;
 
 export default function CreateDropLink({ user }: { user: any }) {
   const [amount, setAmount] = useState("");
-  const [chain, setChain] = useState("bitcoin");
-  const [twitterAccount, setTwitterAccount] = useState("");
   const [dropLink, setDropLink] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { isLoggedIn, currentAccountId, addDrop } = useContractInteraction();
@@ -31,9 +29,10 @@ export default function CreateDropLink({ user }: { user: any }) {
 
     const aptosAmount = Number.parseInt(amount);
     if (isNaN(aptosAmount) || aptosAmount < MIN_AMOUNT) {
+      
       toast({
         title: "Invalid amount",
-        description: `Amount must be at least ${MIN_AMOUNT} satoshis.`,
+        description: `Amount must be at least ${MIN_AMOUNT} apt.`,
         variant: "destructive",
       });
       return;
@@ -60,7 +59,7 @@ export default function CreateDropLink({ user }: { user: any }) {
 
   return (
     <Card className="w-full max-w-md mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4">Create Drop Link</h2>
+      <h2 className="text-xl font-bold mb-4">Create Drop Link </h2>
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="amount">Amount</Label>

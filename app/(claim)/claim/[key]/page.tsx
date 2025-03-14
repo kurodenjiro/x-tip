@@ -31,11 +31,12 @@ export default function ClaimDrop() {
 
   useEffect(() => {
     const checkLink = async () => {
-      console.log('privateKeyBytes', secretKey);
 
       try {
         const privateKeyBytes = HexString.ensure(secretKey as string).toUint8Array();
         const account = new AptosAccount(privateKeyBytes);
+        console.log('account', account.address().hex());
+
         const COIN_TYPE = '0x1::aptos_coin::AptosCoin';
         await client.getAccountResource(account.address(), `0x1::coin::CoinStore<${COIN_TYPE}>`);
       } catch (error: any) {
@@ -67,7 +68,7 @@ export default function ClaimDrop() {
       await client.waitForTransaction(txnResponse.hash);
       console.log('Claim result:');
 
-      setDropInfo("success");
+      setErrorMsg("claim success");
     } catch (error: any) {
       setErrorMsg(error.message);
     }
