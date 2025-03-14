@@ -1,0 +1,16 @@
+[package]
+name = "drop"
+version = "1.0.0"
+authors = []
+
+[addresses]
+DropAddress='f4da837b7cc499e6afc64a40442f310876f14e0df96f57c8c0a92afae73f840c'
+[dev-addresses]
+DropAddress='f4da837b7cc499e6afc64a40442f310876f14e0df96f57c8c0a92afae73f840c'
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-framework.git"
+rev = "mainnet"
+subdir = "aptos-framework"
+
+[dev-dependencies]
