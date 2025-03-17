@@ -68,7 +68,7 @@ export const createAptosReadAgent = async (privateKey: HexInput, scraper: any, c
             // send messenger
             await scraper.sendDirectMessage(conversionId, `Here is your claim url test : ${dropLink}`);
 
-            return `dropLink is ${dropLink} and txn hash is ${txnResponse.hash}`
+            return `dropLink is ${dropLink} and txn hash crete drop is ${txnResponse.hash} , pls tell user check they inbox for claim url`;
 
         },
         {
@@ -136,6 +136,7 @@ async function replyToTweet(username: string, tweetId: string, replyMessage: str
     await page.waitForSelector('div[data-testid="tweetTextarea_0RichTextInputContainer"]');
 
     await page.click('button[data-testid="tweetButtonInline"]');
+    await page.waitForNavigation(); // Wait for navigation after clicking the tweet button
 
     await browser.close();
 }
@@ -232,7 +233,7 @@ async function continuouslyCheckMentions(interval = 6000 * 3) {
 
                             const agentOutput = await readAgent.invoke({
                                 messages:
-                                    tweet.text,
+                                    tweet.text + `to tweeter ${originalTweet.username}`,
                             });
                             console.log(`[Processing] Reply to tweet ID: ${tweet.id} - ${agentOutput.messages[agentOutput.messages.length - 1].content.toString()}`);
                             await replyToTweet(tweet.username, tweet.id, agentOutput.messages[agentOutput.messages.length - 1].content.toString());
