@@ -158,7 +158,7 @@ async function sendDirectMessageOrNotify(scraper: Scraper, conversionId: string,
 
 
 
-async function continuouslyCheckMentions(interval = 6000 * 3) {
+async function continuouslyCheckMentions(interval = 60000 * 3) {
     const scraper = new Scraper();
     const cookieString = process.env.TWITTER_COOKIES;
     const twitterUsername = process.env.TWITTER_USERNAME;
