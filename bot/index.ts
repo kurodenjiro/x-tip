@@ -63,7 +63,7 @@ export const createAptosReadAgent = async (privateKey: HexInput, scraper: any, c
 
             const dropSecret = btoa(privateKeyHex)
 
-            const dropLink = `${process.env.NEXT_PUBLIC_URL}/claim/${dropSecret}?owner=${address}`;
+            const dropLink = `${process.env.API_URL}/claim/${dropSecret}?owner=${address}`;
 
             // send messenger
             await scraper.sendDirectMessage(conversionId, `Here is your claim url test : ${dropLink}`);
@@ -95,7 +95,7 @@ export const createAptosReadAgent = async (privateKey: HexInput, scraper: any, c
     const readAgent = createReactAgent({
         tools: readAgentTools,
         llm: llm,
-        prompt: "You are a Twitter Agent who helps users connect to Aptos onchain information after providing wallet address. answer only once no more questions",
+        prompt: "You are a Twitter Agent who helps users connect to Aptos onchain information after providing wallet address. answer only once no more than 220 characters",
     })
 
 
@@ -111,7 +111,7 @@ async function getUser(userId: string) {
 
 
 async function replyToTweet(username: string, tweetId: string, replyMessage: string) {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
     const cookiesString = process.env.TWITTER_COOKIES;
     if (!cookiesString) {
@@ -157,7 +157,7 @@ async function sendDirectMessageOrNotify(scraper: Scraper, conversionId: string,
 
 
 
-async function continuouslyCheckMentions(interval = 60000 * 3) {
+async function continuouslyCheckMentions(interval = 6000 * 3) {
     const scraper = new Scraper();
     const cookieString = process.env.TWITTER_COOKIES;
     const twitterUsername = process.env.TWITTER_USERNAME;
@@ -234,6 +234,7 @@ async function continuouslyCheckMentions(interval = 60000 * 3) {
                                 messages:
                                     tweet.text,
                             });
+                            console.log(`[Processing] Reply to tweet ID: ${tweet.id} - ${agentOutput.messages[agentOutput.messages.length - 1].content.toString()}`);
                             await replyToTweet(tweet.username, tweet.id, agentOutput.messages[agentOutput.messages.length - 1].content.toString());
                         }
 
