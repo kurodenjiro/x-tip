@@ -35,7 +35,7 @@ export function useContractInteraction() {
       // Convert it to a hex string
       const privateKeyHex = Buffer.from(privateKeyBytes).toString("hex");
       const dropSecret = btoa(privateKeyHex)
-      const dropLink = `${process.env.NEXT_PUBLIC_URL}/claim/${dropSecret}?owner=${accountAddress}`;
+      const dropLink = `${process.env.NEXT_PUBLIC_URL}claim/${dropSecret}?owner=${accountAddress}`;
       return dropLink
 
     }
