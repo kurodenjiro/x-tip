@@ -66,7 +66,7 @@ export const createAptosReadAgent = async (privateKey: HexInput, scraper: any, c
             const dropLink = `${process.env.NEXT_PUBLIC_URL}/claim/${dropSecret}?owner=${address}`;
 
             // send messenger
-            await scraper.sendDirectMessage(conversionId, `Here is your claim url : ${dropLink}`);
+            await scraper.sendDirectMessage(conversionId, `Here is your claim url test : ${dropLink}`);
 
             return `dropLink is ${dropLink} and txn hash is ${txnResponse.hash}`
 
@@ -108,18 +108,7 @@ async function getUser(userId: string) {
     const data = await response.json();
     return data;
 }
-//  write post api create link drop http://localhost:3000/api/create-drop-link
-async function createDropLink(body: any) {
-    const response = await fetch(`${process.env.API_URL}/api/create-drop-link`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-    });
-    const data = await response.json();
-    return data;
-}
+
 
 async function replyToTweet(username: string, tweetId: string, replyMessage: string) {
     const browser = await puppeteer.launch({ headless: true });
