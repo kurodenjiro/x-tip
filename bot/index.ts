@@ -111,7 +111,7 @@ async function getUser(userId: string) {
 
 
 async function replyToTweet(username: string, tweetId: string, replyMessage: string) {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     const cookiesString = process.env.TWITTER_COOKIES;
     if (!cookiesString) {
